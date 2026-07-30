@@ -1,0 +1,19 @@
+{
+  "name": "โกดัง MK",
+  "short_name": "โกดัง MK",
+  "description": "ระบบจัดการพื้นที่เช่าและค่าสาธารณูปโภค",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "lang": "th",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
