@@ -1596,9 +1596,7 @@ function renderShell(){
     return '<button class="' + (m.id === S.view ? 'on' : '') + '" onclick="nav(\'' + m.id + '\')">' +
       '<span class="ic">' + m.ic + '</span><span>' + esc(m.name.split(/[ /]/)[0]) + '</span></button>';
   }).join('');
-  if (menu.length > 5){
-    mob += '<button onclick="openMoreMenu()"><span class="ic">☰</span><span>เพิ่มเติม</span></button>';
-  }
+  mob += '<button onclick="openMoreMenu()"><span class="ic">☰</span><span>เพิ่มเติม</span></button>';
 
   byId('root').innerHTML =
     '<div class="app">' +
@@ -1614,7 +1612,8 @@ function renderShell(){
               esc(me.name || me.email) + '</div>' +
             '<div class="xsmall muted">' + esc(roleText) + '</div>' +
           '</div>' +
-          '<button class="btn ghost sm" onclick="doLogout()" title="ออกจากระบบ">⏻</button>' +
+          '<button class="btn ghost sm" onclick="doLogout()" title="ออกจากระบบ" ' +
+            'aria-label="ออกจากระบบ">⏻</button>' +
         '</div>' +
       '</aside>' +
       '<div class="main">' +
@@ -1634,14 +1633,29 @@ function renderShell(){
 }
 
 function openMoreMenu(){
-  var menu = menuFor().slice(5);
+  var rest = menuFor().slice(5);
+  var me = S.d.me;
+  var roleText = { owner:'เจ้าของ', admin:'ผู้ดูแล', tenant:'ผู้เช่า' }[me.role] || me.role;
+
   openModal({
     title: 'เมนูเพิ่มเติม', size: 'narrow',
-    body: '<div class="col">' + menu.map(function(m){
-      return '<button class="btn block" style="justify-content:flex-start" onclick="closeModal();nav(\'' + m.id + '\')">' +
-        '<span style="font-size:17px">' + m.ic + '</span> ' + esc(m.name) +
-        (m.badge ? ' <span class="tag r" style="margin-left:auto">' + m.badge + '</span>' : '') + '</button>';
-    }).join('') + '</div>'
+    body: '<div class="col">' + rest.map(function(m){
+        return '<button class="btn block" style="justify-content:flex-start" onclick="closeModal();nav(\'' + m.id + '\')">' +
+          '<span style="font-size:17px">' + m.ic + '</span> ' + esc(m.name) +
+          (m.badge ? ' <span class="tag r" style="margin-left:auto">' + m.badge + '</span>' : '') + '</button>';
+      }).join('') + '</div>' +
+
+      // ส่วนบัญชีผู้ใช้ + ออกจากระบบ — ต้องอยู่ตรงนี้เพราะบนมือถือเมนูข้างถูกซ่อน
+      '<div style="border-top:1px solid var(--border);margin:16px 0 14px"></div>' +
+      '<div class="row mb12" style="gap:11px">' +
+        '<div class="avatar">' + esc(initials(me.name || me.email)) + '</div>' +
+        '<div style="min-width:0;flex:1">' +
+          '<div class="bold" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' +
+            esc(me.name || me.email) + '</div>' +
+          '<div class="xsmall muted">' + esc(roleText) + ' · ' + esc(me.email) + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<button class="btn danger block" onclick="closeModal();doLogout()">⏻ ออกจากระบบ</button>'
   });
 }
 
