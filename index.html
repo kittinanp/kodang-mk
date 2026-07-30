@@ -359,7 +359,8 @@ html[data-theme="dark"] .hNum{color:#fff}
     transition:transform .22s;box-shadow:var(--shadow-lg)}
   .sidebar.open{transform:none}
   .menuBtn{display:inline-flex}
-  .content{padding:14px;padding-bottom:78px}
+  /* ต้องเผื่อความสูงแท็บล่าง (77px) บวกแถบท่าทางของเครื่อง ไม่งั้นแท็บจะบังเนื้อหาท้ายหน้า */
+  .content{padding:14px;padding-bottom:calc(94px + env(safe-area-inset-bottom))}
   .topbar{padding:11px 14px}
   .topbar h2{font-size:17px}
   .g2,.g3,.g4{grid-template-columns:1fr}
@@ -375,6 +376,7 @@ html[data-theme="dark"] .hNum{color:#fff}
   .mobNav button .ic{font-size:19px}
   .mobNav button.on{color:var(--primary)}
   .modal{max-height:96vh}
+  .toast{bottom:calc(92px + env(safe-area-inset-bottom))}
   .invoice{padding:18px}
   .qrBox{flex-direction:column;text-align:center}
 }
